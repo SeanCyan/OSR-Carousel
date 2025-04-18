@@ -21,7 +21,16 @@ const thumbnailsConfig = {
   itemsToShow: 6,
   wrapAround: true,
   touchDrag: false,
-  gap: 30,
+  gap: 20,
+}
+
+const carouselConfig = {
+  dir: 'ttb',
+  wrapAround: true,
+  itemsToShow: 3,
+  snapAlign: 'center',
+  height: 'auto',
+  gap: 1,
 }
 
 const images = [
@@ -90,11 +99,22 @@ console.log(images);
       <Navigation />
     </template>
   </Carousel>
+
+  <Carousel v-bind="carouselConfig" id="vertical">
+    <Slide v-for="img in images" :key="img.id">
+      <img :src="img.url" />
+    </Slide>
+
+    <template #addons>
+      <Navigation />
+      <Pagination />
+    </template>
+  </Carousel>
 </template>
 
 <style>
 :root {
-  background-color: #cccccc;
+  background-color: #f1f1f1;
 }
 #gallery {
   height:auto;
@@ -123,7 +143,11 @@ img {
 box-shadow: 0px 0px 32px -8px rgba(0,0,0,0.2);
 margin:25px auto;
 }
-
+.thumbnail-image {
+  -webkit-box-shadow: 0px 0px 25px -8px rgba(0,0,0,0.4);
+-moz-box-shadow: 0px 0px 25px -8px rgba(0,0,0,0.4);
+box-shadow: 0px 0px 25px -8px rgba(0,0,0,0.4);
+}
 #thumbnails {
   margin-top: 10px;
   width: auto;
@@ -152,16 +176,28 @@ margin:25px auto;
  color: white;
  margin: 0 10px;
 }
-@media (max-width: 1024px) {
-  .gallery-image {
-  border-radius: 16px;
-  width: 90vw;
-  height: auto;
-  -webkit-box-shadow: 0px 0px 32px -8px rgba(0,0,0,0.2);
--moz-box-shadow: 0px 0px 32px -8px rgba(0,0,0,0.2);
-box-shadow: 0px 0px 32px -8px rgba(0,0,0,0.2);
-margin:25px auto;
+#vertical {
+    display: none;
+  }
+@media all and (max-width: 1024px) {
+  #thumbnails, #gallery {
+    display: none;
+  }
+  #vertical {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    height: 90vh;
+  }
+    #vertical li {
+    height: auto !important;
+    padding: 5px 0;
+  }
+  #vertical img {
+    width: 100%;
+    height: auto;
+    background-size:cover;
+  }
 }
 
-}
 </style>
